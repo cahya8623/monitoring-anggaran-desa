@@ -1,36 +1,36 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Ruang Anggaran Desa
 
-## Getting Started
+Aplikasi portofolio untuk transparansi anggaran desa. Dibangun dengan Next.js App Router, JavaScript, Tailwind CSS, SQLite, dan Route Handlers.
 
-First, run the development server:
+## Menjalankan secara lokal
+
+1. Pastikan Node.js 20.9 atau lebih baru sudah tersedia.
+2. Isi konfigurasi email SMTP pada `.env.local` jika ingin mengaktifkan reset password melalui email.
+3. Jalankan:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+4. Buka http://localhost:3000.
+5. Untuk membuat akun admin pertama, buka http://localhost:3000/setup-admin. Salin nilai `SETUP_TOKEN` dari `.env.local`, lalu buat username, email admin, dan password minimal 12 karakter. Setup awal otomatis ditutup setelah admin pertama berhasil dibuat.
+6. Masuk melalui http://localhost:3000/login.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+Database SQLite dan data seed dibuat otomatis pada `data/anggaran-desa.sqlite` di folder proyek ketika API pertama kali digunakan. Data awal mencakup contoh transaksi tahun 2023–2025 dan ditandai sebagai data simulasi.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Reset password
 
-## Learn More
+Atur `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE`, `SMTP_USER`, `SMTP_PASS`, `SMTP_FROM`, dan `APP_URL` di `.env.local`. Fitur lupa password mengirim tautan sekali pakai yang kedaluwarsa dalam 30 menit. Token reset hanya disimpan dalam bentuk SHA-256 di database.
 
-To learn more about Next.js, take a look at the following resources:
+## Fitur
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Dashboard publik: filter tahun, KPI, grafik arus anggaran, belanja per kategori, pencarian dan filter transaksi, paginasi.
+- Profil desa demo beserta peta OpenStreetMap ilustratif.
+- Panel admin terlindungi: login JWT dalam cookie HttpOnly, tambah/edit/hapus transaksi, dan rekap tahunan.
+- Password admin di-hash menggunakan bcrypt; reset password memakai email SMTP dan token sekali pakai.
+- Validasi data pada server dan pesan loading, kosong, serta error.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Sebelum dipublikasikan
 
-## Deploy on Vercel
+Semua nama, profil, koordinat, dan transaksi bawaan merupakan data simulasi. Ganti dengan data yang benar-benar sudah diverifikasi. Konfigurasikan rahasia dan SMTP pada environment deployment—jangan unggah `.env.local` atau kredensial ke repository. SQLite cocok untuk pengembangan/hosting satu instance dengan disk persisten; untuk deployment serverless atau multi-instance, gunakan penyimpanan database bersama.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
